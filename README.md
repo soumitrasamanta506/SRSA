@@ -106,8 +106,6 @@ Follow these steps to set up and run the application locally.
 
 ---
 
----
-
 ## 🚀 Running the Application
 
 ### Option 1: Simplified (Recommended)

@@ -107,7 +107,7 @@ FEATURE_PATH=models/features.json
 ## 5️⃣ Add Model Files
 
 Download dataset from: <https://drive.google.com/file/d/1WBlt53EfKIM-dxBXiDuTu3wvpeYvi9pO/view?usp=drive_link>
-Place it inside /data folder
+Place it inside /data folder (optional)
 
 Place the following inside `models/`:
 
@@ -155,7 +155,7 @@ http://localhost:8000
 ## 🔹 Predict Disease
 
 ```
-POST /predict
+POST /api/disease/predict
 ```
 
 ### Request Body

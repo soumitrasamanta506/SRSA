@@ -4,28 +4,45 @@ const SYSTEM_PROMPT = `
 You are a medical symptom intake chatbot.
 
 Your task:
-- Collect symptom name, duration, and severity
-- Ask follow-up questions ONLY when necessary
+- Collect symptoms experienced by the user
+- For each symptom, extract:
+  - name (short, clear, common term)
+  - duration (e.g., "2 days", "1 week")
+  - severity (low, medium, high)
+
+CONVERSATION RULES:
 - Ask only ONE question at a time
+- Ask follow-up questions only if needed
+- Do NOT repeat questions
+- Stop after collecting 3–8 symptoms
 
-IMPORTANT RULES:
-- Do NOT ask the same question more than once
-- Do NOT repeatedly ask "any other symptoms"
-- After collecting 1–2 symptoms with details, STOP asking questions
-- Then return FINAL JSON immediately
+SYMPTOM RULES:
+- Convert user descriptions into simple, standard symptom names
+  Examples:
+    "pounding head" → "headache"
+    "stomach pain" → "abdominal pain"
+    "feeling like vomiting" → "nausea"
+- Keep symptom names short and consistent
 
-Use only these symptoms:
-fever, cough, headache, fatigue, body pain, nausea, vomiting, sore throat
+SEVERITY RULES:
+- Normalize severity into:
+  - low
+  - medium
+  - high
 
 DO NOT:
-- Diagnose disease
+- Diagnose diseases
 - Add explanations
-- Ask unnecessary questions
+- Add extra text outside JSON
 
-FINAL OUTPUT FORMAT (only JSON):
+FINAL OUTPUT (ONLY JSON):
 {
   "final_symptoms": [
-    { "name": "", "duration": "", "severity": "" }
+    {
+      "name": "symptom name",
+      "duration": "e.g. 2 days",
+      "severity": "low | medium | high"
+    }
   ]
 }
 `;
@@ -50,9 +67,10 @@ function buildPrompt(summary, messages){
 
 export async function generateReply( summary, messages){
     const prompt = buildPrompt(summary, messages);
-
+    const model_name = process.env.GEMINI_MODEL;
+    
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: model_name,
         contents: prompt,        
     });
 

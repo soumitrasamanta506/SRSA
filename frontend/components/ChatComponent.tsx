@@ -62,13 +62,27 @@ export default function ChatComponent() {
       if (data.success) {
         if (data.type === "final") {
           setIsFinal(true);
+          
+          const predictionResults = data.predictions
+            .map((p: any) => `- **${p.disease}**: ${p.confidence}%match`)
+            .join("\n");
+
           const assistantMessage: Message = {
             id: (Date.now() + 1).toString(),
             role: "assistant",
-            content: `### Symptom Extraction Complete\nBased on our conversation, I've summarized your symptoms:\n\n\`\`\`json\n${JSON.stringify(data.data, null, 2)}\n\`\`\`\n\nYou can now proceed with this data or start a new session.`,
+            content: `### Analysis Complete\n\n**Predicted Conditions:**\n${predictionResults}\n\n*Please consult a real doctor for a formal diagnosis.*`,
             createdAt: new Date(),
           };
           setMessages((prev) => [...prev, assistantMessage]);
+        }else if(data.type === "final_error"){
+            setIsFinal(true);
+            const errorMessage: Message = {
+                id: Date.now().toString(),
+                role: "assistant",
+                content: `### Symptom Summary\n${data.extracted.map((s: any) => `- ${s.name}`).join("\n")}\n\n⚠️ **Analysis Error:** ${data.message}`,
+                createdAt: new Date(),
+            };
+            setMessages((prev) => [...prev, errorMessage]);
         } else {
           const assistantMessage: Message = {
             id: (Date.now() + 1).toString(),

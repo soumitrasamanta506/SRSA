@@ -1,0 +1,20 @@
+# Ignore node_modules and build artifacts
+/node_modules
+/dist
+/build
+/coverage
+
+# Ignore environment variable files
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+
+# logs 
+*.log
+logs/*.json
+*.*-audit.json
+
+.DS_STORE

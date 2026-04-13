@@ -13,5 +13,6 @@ class Config:
     MODEL_PATH = os.path.join(BASE_DIR, os.getenv("MODEL_PATH", "models/disease_model.h5"))
     ENCODER_PATH = os.path.join(BASE_DIR, os.getenv("ENCODER_PATH", "models/label_encoder.pkl"))
     FEATURE_PATH = os.path.join(BASE_DIR, os.getenv("FEATURE_PATH", "models/features.json"))
+    DROPPED_FEATURES_PATH = os.path.join(BASE_DIR, os.getenv("DROPPED_FEATURES_PATH", "models/dropped_features.json"))
 
     LOG_FILE = "logs/app.log"

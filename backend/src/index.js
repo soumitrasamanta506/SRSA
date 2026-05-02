@@ -6,7 +6,7 @@ import cookieParser from "cookie-parser";
 
 import db from "./config/mongodb.js";
 import logger from "../logs/index.js";
-import { errorHandler } from "./middleWare/errorHandler.js";
+import { errorHandler } from "./middleWares/errorHandler.js";
 import registerRoutes from "./routes/register.js";
 
 const app = express();

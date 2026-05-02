@@ -1,5 +1,5 @@
 import express from "express";
-import protectAuth from "../middleware/protectAuth.js";
+import protectAuth from "../middlewares/protectAuth.js";
 const router = express.Router();
 
 import {

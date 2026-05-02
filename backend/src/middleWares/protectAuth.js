@@ -6,7 +6,7 @@ import asyncHandler from "../utils/tryCatchWrapper.js";
 const protectAuth = (role) =>
     asyncHandler(async (req, res, next) => {
 
-        const token = req.cookies.SRSA_auth_a1b2c3d4e5f6g7h8;;
+        const token = req.cookies.SRSA_auth_a1b2c3d4e5f6g7h8;
 
         if (!token) {
             return res.status(401).json({

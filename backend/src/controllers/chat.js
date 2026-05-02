@@ -1,6 +1,7 @@
 import axios from "axios";
 import { generateReply } from "../services/geminiService.js";
 import asyncHandler from "../utils/tryCatchWrapper.js";
+import { savePredictionReport } from "../services/reportService.js";
 import logger from "../../logs/index.js"
 
 const MAX_MESSAGES = 6;
@@ -71,11 +72,23 @@ export const handleChat = asyncHandler(async (req, res) => {
                 symptoms: extractedSymptoms
             }, { timeout: 5000});
 
+            const predictions = mlResponse.data.data.predictions;
+            if (req.user && req.role === "patient") {
+                try {
+                    await savePredictionReport({
+                        patientId: req.user._id,
+                        symptoms: extractedSymptoms,
+                        predictions
+                    });
+                } catch (err) {
+                    logger.error(`Auto save failed: ${err.message}`);
+                }
+            }
             return res.json({
                 success: true,
                 type: "final",
                 extracted: extractedSymptoms,
-                predictions: mlResponse.data.data.predictions
+                predictions
             });
         } catch ( mlError ){
             logger.error(`ML Model Service Unavailable: ${mlError.message}`);

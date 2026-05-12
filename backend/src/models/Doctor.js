@@ -62,7 +62,17 @@ const doctorSchema = new mongoose.Schema(
 {
     timestamps: true
 });
+doctorSchema.set("toJSON", {
 
+    transform: (doc, ret) => {
+        delete ret.__v;
+        delete ret.createdAt;
+        delete ret.updatedAt;
+
+        return ret;
+    }
+
+});
 const doctor = mongoose.model("Doctor", doctorSchema);
 
 export default doctor;

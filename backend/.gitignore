@@ -16,5 +16,5 @@
 *.log
 logs/*.json
 *.*-audit.json
-
+.*-audit.json
 .DS_STORE

@@ -2,10 +2,12 @@ import express from "express";
 import "dotenv/config";
 import cors from "cors";
 import session from "express-session";
+import cookieParser from "cookie-parser";
 
+import db from "./config/mongodb.js";
 import logger from "../logs/index.js";
-import { errorHandler } from "./middleWare/errorHandler.js";
-import chatRoutes from "./routes/chatRoutes.js";
+import { errorHandler } from "./middleWares/errorHandler.js";
+import registerRoutes from "./routes/register.js";
 
 const app = express();
 
@@ -28,6 +30,7 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.use(
     session({
@@ -44,7 +47,7 @@ app.use(
 );
 
 // Routes
-app.use("/api/chat", chatRoutes);
+registerRoutes(app);
 
 app.use(errorHandler);
 

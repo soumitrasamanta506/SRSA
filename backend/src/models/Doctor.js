@@ -44,6 +44,11 @@ const doctorSchema = new mongoose.Schema(
         default: 0
     },
 
+    totalReviews: {
+        type: Number,
+        default: 0
+    },
+
     location: {
         address: String,
         city: String

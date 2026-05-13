@@ -5,6 +5,7 @@ import reportRoutes from "./report.js";
 import doctorAvailabilityRoutes from "./doctorAvailability.js";
 import doctorRoutes from "./doctor.js";
 import appointmentRoutes from "./appointment.js";
+import reviewRoutes from "./review.js";
 
 const registerRoutes = (app) => {
     app.use("/api/patient/auth", patientAuthRoutes);
@@ -14,6 +15,7 @@ const registerRoutes = (app) => {
     app.use("/api/doctor/availability", doctorAvailabilityRoutes);
     app.use("/api/doctors", doctorRoutes);
     app.use("/api/appointments", appointmentRoutes);
+    app.use("/api/reviews", reviewRoutes);
 };
 
 export default registerRoutes;

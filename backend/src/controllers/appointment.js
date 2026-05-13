@@ -1,6 +1,7 @@
 import crypto from "crypto";
 import Appointment from "../models/Appointment.js";
 import Doctor from "../models/Doctor.js";
+import Review from "../models/Review.js";
 import razorpay from "../config/razorpay.js";
 import asyncHandler from "../utils/tryCatchWrapper.js";
 
@@ -179,12 +180,36 @@ export const getPatientAppointments = asyncHandler(async (req, res) => {
             startTime: 1
         });
 
+    // Only completed appointments need review info
+    if (type !== "completed") {
+        return res.status(200).json({
+            success: true,
+            totalAppointments: appointments.length,
+            appointments
+        });
+    }
+    // Add review info for completed appointments
+    const updatedAppointments = await Promise.all(
+        appointments.map(async (appointment) => {
+            const review = await Review.findOne({
+                appointmentId: appointment._id
+            }).select(
+                "rating comment"
+            );
+
+            return {
+                ...appointment.toObject(),
+                reviewSubmitted: !!review,
+                review: review || null
+            };
+        })
+    );
+
     res.status(200).json({
         success: true,
-        totalAppointments: appointments.length,
-        appointments
+        totalAppointments: updatedAppointments.length,
+        appointments: updatedAppointments
     });
-
 });
 
 export const cancelAppointment = asyncHandler(async (req, res) => {

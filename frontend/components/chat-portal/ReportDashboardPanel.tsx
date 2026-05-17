@@ -3,6 +3,7 @@
 import { Sparkles, Download, FileText, Brain, Star, Briefcase, MapPin, Calendar, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { getSpecializationForDisease } from "@/lib/medical-mapping";
 
 interface ReportDashboardPanelProps {
   activeReportId: string | null;
@@ -14,7 +15,6 @@ interface ReportDashboardPanelProps {
   matchedSpecialization: string;
   startOver: () => void;
   onSelectDoctor: (doc: any, date: string) => void;
-  getSpecializationForDisease: (disease: string) => string;
 }
 
 export function ReportDashboardPanel({
@@ -26,8 +26,7 @@ export function ReportDashboardPanel({
   availabilities,
   matchedSpecialization,
   startOver,
-  onSelectDoctor,
-  getSpecializationForDisease
+  onSelectDoctor
 }: ReportDashboardPanelProps) {
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden bg-background text-left">

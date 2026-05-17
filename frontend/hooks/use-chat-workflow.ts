@@ -75,7 +75,6 @@ export function useChatWorkflow() {
           setExtractedSymptoms(data.extracted || []);
           setPredictions(data.predictions || []);
           setErrorMessage(data.type === "final_error" ? data.message : "");
-          setActiveTab("report");
 
           const content =
             data.type === "final"

@@ -278,17 +278,7 @@ export default function ChatComponent() {
           setHistorySearchQuery={setHistorySearchQuery}
           isFinal={isFinal}
           activeAppointment={activeAppointment}
-          startIntake={() => {
-            setIsFinal(false);
-            setBookingStep("idle");
-            setActiveAppointment(null);
-            setActiveReportId(null);
-            setIsMobileOpen(false);
-            setActiveTab("chat");
-            setPredictions([]);
-            setExtractedSymptoms([]);
-            hasSavedReportRef.current = false;
-          }}
+          startIntake={startOver}
           currentUser={currentUser}
           patientReports={patientReports}
           patientAppointments={patientAppointments}
@@ -325,13 +315,15 @@ export default function ChatComponent() {
                 setCancelModalOpen(true);
               }}
             />
-          ) : !isFinal ? (
+          ) : activeTab === "chat" ? (
             <ChatPanel
               messages={messages}
               isLoading={isLoading}
+              isFinal={isFinal}
               input={input}
               setInput={setInput}
               handleSubmit={handleSubmit}
+              onViewReport={() => setActiveTab("report")}
               containerRef={containerRef}
               handleScroll={handleScroll}
               handleTouchStart={handleTouchStart}
